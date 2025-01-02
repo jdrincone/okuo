@@ -17,7 +17,7 @@ st.set_page_config(
 )
 
 # Título del Tablero
-st.title("📊 Tablero de Análisis y Modelado de Datos")
+st.title("Tablero de Análisis y Modelado de Datos")
 
 st.markdown(
     """
@@ -491,7 +491,7 @@ st.markdown(
 )
 numerical_columns = df.select_dtypes(include=[np.number]).columns
 correlation_matrix = df[numerical_columns].corr()
-st.header("📊 Matriz de Correlación")
+st.header("Matriz de Correlación")
 
 st.markdown(
     """
@@ -550,7 +550,7 @@ alimenticia basada en diversas características como la fábrica de alimento, gr
 # Función para entrenar el modelo
 
 
-st.header("🔧 Estructura del Pipeline de Preprocesamiento")
+st.header(" Estructura del Pipeline de Preprocesamiento")
 encoder_freq = CountFrequencyEncoder(
     encoding_method="frequency",
     variables=categorical_cols,
@@ -776,4 +776,4 @@ st.dataframe(categorical_summary)
 # valor_kilo_alimento
 # Footer
 st.markdown("---")
-st.markdown("**Hecho con ❤️ por [Juan David Rincón](jdrincone@gmail.com)**")
+st.markdown("**Hecho  por [Juan David Rincón](jdrincone@gmail.com)**")
