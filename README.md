@@ -1,5 +1,5 @@
 
-**Prueba tecnica**
+**Prueba técnica**
 
 El presente reprositorio contiene el
 análisis y resultados de la prueba técnica
