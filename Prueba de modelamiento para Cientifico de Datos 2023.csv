@@ -1,4 +1,4 @@
-loteNo;departamento_anonym;empresa_anonym;granja_anonym;proveedorCorregido_anonym;fabricaAlimento;genética;duracionCeba;edadFinal;edadInicial;pesoInicial;pesoFinal;fechaSalida;anioSalida;semesreSalida;anioSemestreSalida;asesor;numFinalAnimales;numInicialAnimales;mortalidad;conversionAlimenticia
+loteNo;departamento_anonym;empresa_anonym;granja_anonym;proveedorCorregido_anonym;fabricaAlimento;genetica;duracionCeba;edadFinal;edadInicial;pesoInicial;pesoFinal;fechaSalida;anioSalida;semesreSalida;anioSemestreSalida;asesor;numFinalAnimales;numInicialAnimales;mortalidad;conversionAlimenticia
 5e4604c71c555bfa922bd644;dp_0;em_0;gr_0;pn_0;pp_0;lg_0;72;152;80;30.95;103.56;9/09/2019;2019;2;2019-S2;rt_0;220;226;2.65;2.176
 5e4604c71c555bfa922bd68c;dp_0;em_0;gr_0;pn_0;pp_0;lg_0;81;154;73;26.61;100.64;23/10/2019;2019;2;2019-S2;rt_0;187;201;6.97;2.209
 5e4604c71c555bfa922bd6b5;dp_0;em_0;gr_0;pn_0;pp_0;lg_0;79;152;73;28.32;102.07;19/11/2019;2019;2;2019-S2;rt_0;194;203;4.43;2.135

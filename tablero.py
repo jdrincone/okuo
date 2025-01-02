@@ -12,20 +12,20 @@ from sklearn.pipeline import Pipeline
 from feature_engine.encoding import CountFrequencyEncoder
 
 st.set_page_config(
-    page_title="Tablero de An·lisis y Modelado de Datos",
+    page_title="Tablero de An√°lisis y Modelado de Datos",
     layout="wide",
 )
 
-# TÌtulo del Tablero
-st.title("=  Tablero de An·lisis y Modelado de Datos")
+# T√≠tulo del Tablero
+st.title("üìä Tablero de An√°lisis y Modelado de Datos")
 
 st.markdown(
     """
 **Prueba tecnica:**  
-- El siguiente reporte presenta los resultados del an·lisis y modelamiento de datos
-asociados a la conversiÛn alimenticia y como esta puede ser interpretada bajo un conjunto
-de predictores. Detalles de los calculos y mayor descripciÛn de las variables se podr· encontrar
-en el notebook de exploraciÛn y modelado.
+- El siguiente reporte presenta los resultados del an√°lisis y modelamiento de datos
+asociados a la conversi√≥n alimenticia y como esta puede ser interpretada bajo un conjunto
+de predictores. Detalles de los calculos y mayor descripci√≥n de las variables se podr√° encontrar
+en el notebook de exploraci√≥n y modelado.
 
 Iniciamos cargando los datos raw:
 """
@@ -45,12 +45,12 @@ def cargar_datos():
 
 df = cargar_datos()
 
-# Identificar columnas categÛricas y numÈricas
-categorical_cols = ["fabricaAlimento", "granja_anonym", "genÈtica", "asesor"]
+# Identificar columnas categ√≥ricas y num√©ricas
+categorical_cols = ["fabricaAlimento", "granja_anonym", "genetica", "asesor"]
 numerical_cols = ["pesoInicial", "pesoFinal", "semesreSalida", "mortalidad"]
 
-# Barra lateral para filtros de visualizaciÛn
-st.sidebar.header("Filtros de VisualizaciÛn")
+# Barra lateral para filtros de visualizaci√≥n
+st.sidebar.header("Filtros de Visualizaci√≥n")
 
 # Barra lateral para filtros
 st.sidebar.header("Filtros")
@@ -58,12 +58,12 @@ st.sidebar.header("Filtros")
 # Filtro por especie
 especies = st.sidebar.multiselect(
     "Selecciona tipo de genetica:",
-    options=df["genÈtica"].unique(),
-    default=df["genÈtica"].unique(),
+    options=df["genetica"].unique(),
+    default=df["genetica"].unique(),
 )
 
 anioSalida = st.sidebar.multiselect(
-    "Selecciona por aÒo de salida:",
+    "Selecciona por a√±o de salida:",
     options=df["anioSalida"].unique(),
     default=df["anioSalida"].unique(),
 )
@@ -82,29 +82,29 @@ sepal_length = st.sidebar.slider(
 costo_por_kg = st.sidebar.selectbox(
     "Valor kilogramo alimento: ",
     options=[2500, 2000, 5000, 0],
-    index=0,  # Õndice del valor por defecto (0 corresponde a 0)
+    index=0,  # √çndice del valor por defecto (0 corresponde a 0)
 )
 
 peso_inicial = st.sidebar.selectbox(
     "Peso inicial: ",
     options=[20, 30, 40, 50],
-    index=0,  # Õndice del valor por defecto (0 corresponde a 0)
+    index=0,  # √çndice del valor por defecto (0 corresponde a 0)
 )
 peso_final = st.sidebar.selectbox(
     "Peso final: ",
     options=[220, 210, 230, 30],
-    index=0,  # Õndice del valor por defecto (0 corresponde a 0)
+    index=0,  # √çndice del valor por defecto (0 corresponde a 0)
 )
 poblacion = st.sidebar.selectbox(
-    "PoblaciÛn: ",
+    "Poblaci√≥n: ",
     options=[200000, 210000, 18000, 10],
-    index=0,  # Õndice del valor por defecto (0 corresponde a 0)
+    index=0,  # √çndice del valor por defecto (0 corresponde a 0)
 )
 
 
 # Aplicar filtros al DataFrame
 filtro = (
-    (df["genÈtica"].isin(especies))
+    (df["genetica"].isin(especies))
     & (df["anioSalida"].isin(anioSalida))
     & (df["pesoInicial"] >= sepal_length[0])
     & (df["pesoInicial"] <= sepal_length[1])
@@ -116,12 +116,12 @@ df_filtrado = df[filtro]
 st.header("Datos de trabajo")
 st.dataframe(df)
 
-# DiseÒo del Tablero
+# Dise√±o del Tablero
 # Utilizar columnas para organizar el contenido
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("DistribuciÛn de ConversiÛn Alimenticia")
+    st.subheader("Distribuci√≥n de Conversi√≥n Alimenticia")
 
     fig1, ax1 = plt.subplots(figsize=(10, 6))
     sns.histplot(
@@ -136,7 +136,7 @@ with col1:
     # Calcular la media
     mean_conversion = df_filtrado["conversionAlimenticia"].mean()
 
-    # Agregar lÌnea vertical en la media
+    # Agregar l√≠nea vertical en la media
     ax1.axvline(mean_conversion, color="red", linestyle="--", linewidth=2)
 
     # Agregar etiqueta para la media
@@ -150,51 +150,51 @@ with col1:
         backgroundcolor="white",
     )
 
-    # Configurar etiquetas y tÌtulo
-    ax1.set_xlabel("ConversiÛn Alimenticia")
+    # Configurar etiquetas y t√≠tulo
+    ax1.set_xlabel("Conversi√≥n Alimenticia")
     ax1.set_ylabel("Frecuencia")
-    ax1.set_title("DistribuciÛn de la ConversiÛn Alimenticia con la Media")
+    ax1.set_title("Distribuci√≥n de la Conversi√≥n Alimenticia con la Media")
 
     st.pyplot(fig1)
     st.markdown(
         """
-            A nivel global (sin usar los filtros globales, la conversiÛn alimenticia muestra una
-            distribucciÛn sesgada o inclinada hacia menores valores de conversiÛn, con un valor
+            A nivel global (sin usar los filtros globales, la conversi√≥n alimenticia muestra una
+            distribucci√≥n sesgada o inclinada hacia menores valores de conversi√≥n, con un valor
             medio en la muestra trabajada de  2.24 UA.
             """
     )
 
 with col2:
-    # st.header("RelaciÛn Sepal vs. Petal")
+    # st.header("Relaci√≥n Sepal vs. Petal")
     # fig2, ax2 = plt.subplots()
     # sns.scatterplot(data=df_filtrado, x='edadFinal',  y='conversionAlimenticia', ax=ax2)
     # st.pyplot(fig2)
     # Crear columnas internas para centrar la tabla
 
-    st.subheader("EstadÌsticas de ConversiÛn Alimenticia")
+    st.subheader("Estad√≠sticas de Conversi√≥n Alimenticia")
 
     st.dataframe(df_filtrado.describe())
     st.markdown(
         """
             Dentro de las variables numericas podriamos inferir que la edad de los animales
-            se mide en semanas, donde el proceso de mediciÛn inicia en promedio cuando los
+            se mide en semanas, donde el proceso de medici√≥n inicia en promedio cuando los
             animales poseen 72 semanas  y concluye su vida en promedio a las 157 semanas. Estos
             animales en promedio empieza con un peso de 31 U.A y concluyen con un peso promedio de 113U.A
-            La mortalidad tiene un promedio de 1.88% con un m·ximo de 10%.
+            La mortalidad tiene un promedio de 1.88% con un m√°ximo de 10%.
 
             """
     )
 
-# AÒadir Box Plots
+# A√±adir Box Plots
 st.markdown(
-    "<h2 style='text-align: center; color: #4CAF50;'>Box Plots: variables categÛricas</h2>",
+    "<h2 style='text-align: center; color: #4CAF50;'>Box Plots: variables categ√≥ricas</h2>",
     unsafe_allow_html=True,
 )
 # Crear columnas para los box plots
 box_col1, box_col2 = st.columns(2)
 
 with box_col1:
-    st.subheader("ConversiÛn por fabrica de alimento")
+    st.subheader("Conversi√≥n por fabrica de alimento")
     fig3, ax3 = plt.subplots()
     sns.violinplot(
         x="fabricaAlimento",
@@ -205,22 +205,22 @@ with box_col1:
         inner="quartile",
     )
     ax3.set_xlabel("Fabrica de Alimento")
-    ax3.set_ylabel("ConversiÛn")
+    ax3.set_ylabel("Conversi√≥n")
     st.pyplot(fig3)
 #
 with box_col2:
-    st.subheader("ConversiÛn por tipo de genÈtica")
+    st.subheader("Conversi√≥n por tipo de genetica")
     fig4, ax4 = plt.subplots()
     sns.violinplot(
-        x="genÈtica",
+        x="genetica",
         y="conversionAlimenticia",
         data=df_filtrado,
         ax=ax4,
         palette="Set3",
         inner="quartile",
     )
-    ax4.set_xlabel("GenÈtica")
-    ax4.set_ylabel("ConversiÛn")
+    ax4.set_xlabel("genetica")
+    ax4.set_ylabel("Conversi√≥n")
     st.pyplot(fig4)
 
 with box_col1:
@@ -239,11 +239,11 @@ with box_col1:
     ]
     df_asseror = df[df["asesor"].isin(asesor)]
 
-    st.subheader("ConversiÛn por los principales asesores")
+    st.subheader("Conversi√≥n por los principales asesores")
     fig3, ax3 = plt.subplots()
     sns.boxplot(x="asesor", y="conversionAlimenticia", data=df_asseror, ax=ax3)
     ax3.set_xlabel("Asesor")
-    ax3.set_ylabel("ConversiÛn")
+    ax3.set_ylabel("Conversi√≥n")
     st.pyplot(fig3)
 #
 with box_col2:
@@ -262,37 +262,37 @@ with box_col2:
     ]
     df_granja = df[df["granja_anonym"].isin(granjas)]
 
-    st.subheader("ConversiÛn por Granja")
+    st.subheader("Conversi√≥n por Granja")
     fig4, ax4 = plt.subplots()
     sns.boxplot(x="granja_anonym", y="conversionAlimenticia", data=df_granja, ax=ax4)
     ax4.set_xlabel("Granja")
-    ax4.set_ylabel("ConversiÛn")
+    ax4.set_ylabel("Conversi√≥n")
     st.pyplot(fig4)
 
 st.markdown(
     """
-            - Las fabricas de alimento que mejor performance en conversiÛn han tenido, es decir, el valor
-            medio en conversiÛn de la fabrica, comparado con el valor medio de toda la muestra de datos son pp_0
-            y pp_8.  Caso opuesto se puede ver en la genÈtica de los animales, donde las categorÌas lg_6 y lg_2 
+            - Las fabricas de alimento que mejor performance en conversi√≥n han tenido, es decir, el valor
+            medio en conversi√≥n de la fabrica, comparado con el valor medio de toda la muestra de datos son pp_0
+            y pp_8.  Caso opuesto se puede ver en la genetica de los animales, donde las categor√≠as lg_6 y lg_2 
             poseen un valor medio superior al de la muestra analizada.
-            - En AdiciÛn, aunque en un mejor grado, los asesores rt_0 y rt_2 presentan un performance superior
-            que los dem·s. En el caso de las granjas, se puede evidenciar un comportamiento algo atipico en el
-            grupo de granjas para la gr_18 donde su valor medio degrada la conversiÛn. De igual forma se observan 
-            valores atipicos en la granja 48, pero estos valores mejoran el performance de conversiÛn
+            - En Adici√≥n, aunque en un mejor grado, los asesores rt_0 y rt_2 presentan un performance superior
+            que los dem√°s. En el caso de las granjas, se puede evidenciar un comportamiento algo atipico en el
+            grupo de granjas para la gr_18 donde su valor medio degrada la conversi√≥n. De igual forma se observan 
+            valores atipicos en la granja 48, pero estos valores mejoran el performance de conversi√≥n
             """
 )
-# DispersiÛn
+# Dispersi√≥n
 
-# AÒadir Box Plots
+# A√±adir Box Plots
 st.markdown(
-    "<h2 style='text-align: center; color: #0D47A1;'>RelaciÛn de disperciÛn: variables numÈricas</h2>",
+    "<h2 style='text-align: center; color: #0D47A1;'>Relaci√≥n de disperci√≥n: variables num√©ricas</h2>",
     unsafe_allow_html=True,
 )
 st.markdown(
     """En los siguientes graficos cada punto representa 
-            un lote de cerdo y como la conversiÛn alimenticia cambia en funciÛn de
-            alg˙n predictor numÈrico. Los puntos en rojo, son valores atipicos y estan calculados
-            como aquellos datos que superan m·s de tres desviaciones est·ndar de la media.
+            un lote de cerdo y como la conversi√≥n alimenticia cambia en funci√≥n de
+            alg√∫n predictor num√©rico. Los puntos en rojo, son valores atipicos y estan calculados
+            como aquellos datos que superan m√°s de tres desviaciones est√°ndar de la media.
             """
 )
 
@@ -303,7 +303,7 @@ df_filtrado["z_score_duracionCeba"] = stats.zscore(df_filtrado["duracionCeba"])
 # Identificar outliers
 outliers = np.abs(df_filtrado["z_score_duracionCeba"]) > 3
 with scatter_col1:
-    st.subheader("DispersiÛn de DuraciÛn de Ceba y ConversiÛn Alimenticia")
+    st.subheader("Dispersi√≥n de Duraci√≥n de Ceba y Conversi√≥n Alimenticia")
     fig_scatter, ax_scatter = plt.subplots(figsize=(10, 6))
     ax_scatter.scatter(
         df_filtrado.loc[~outliers, "duracionCeba"],
@@ -317,24 +317,24 @@ with scatter_col1:
         df_filtrado.loc[outliers, "duracionCeba"],
         df_filtrado.loc[outliers, "conversionAlimenticia"],
         color="red",
-        label="Valores atÌpicos",
+        label="Valores at√≠picos",
         alpha=0.8,
     )
 
-    # ConfiguraciÛn del gr·fico
+    # Configuraci√≥n del gr√°fico
     ax_scatter.set_title(
-        "DispersiÛn de DuraciÛn de Ceba y ConversiÛn Alimenticia (con Valores AtÌpicos)"
+        "Dispersi√≥n de Duraci√≥n de Ceba y Conversi√≥n Alimenticia (con Valores At√≠picos)"
     )
-    ax_scatter.set_xlabel("DuraciÛn de Ceba (U.A)")
-    ax_scatter.set_ylabel("ConversiÛn Alimenticia")
+    ax_scatter.set_xlabel("Duraci√≥n de Ceba (U.A)")
+    ax_scatter.set_ylabel("Conversi√≥n Alimenticia")
     ax_scatter.legend()
 
     st.pyplot(fig_scatter)
     st.markdown(
-        """Lotes de cerdos con menos de 50 semanas de Ceba son casos anomalos, adiciones la conversiÛn
+        """Lotes de cerdos con menos de 50 semanas de Ceba son casos anomalos, adiciones la conversi√≥n
     es superior al valor medio de la muestra total. A nivel descriptivo se observa
-    que una conversiÛn por debajo de la media se obtine con al menos 105 semanas de ceba, por encima de estas,
-    la conversiÛn se degrada
+    que una conversi√≥n por debajo de la media se obtine con al menos 105 semanas de ceba, por encima de estas,
+    la conversi√≥n se degrada
         """
     )
 
@@ -343,7 +343,7 @@ with scatter_col2:
 
     # Identificar outliers
     outliers = np.abs(df_filtrado["z_score_edad_final"]) > 3
-    st.subheader("DispersiÛn de edad final y ConversiÛn Alimenticia")
+    st.subheader("Dispersi√≥n de edad final y Conversi√≥n Alimenticia")
 
     # Crear el scatter plot
     fig_scatter, ax_scatter = plt.subplots(figsize=(10, 6))
@@ -362,25 +362,25 @@ with scatter_col2:
         df_filtrado.loc[outliers, "edadFinal"],
         df_filtrado.loc[outliers, "conversionAlimenticia"],
         color="red",
-        label="Valores atÌpicos",
+        label="Valores at√≠picos",
         alpha=0.8,
     )
 
-    # ConfiguraciÛn del gr·fico
+    # Configuraci√≥n del gr√°fico
     ax_scatter.set_title(
-        "DispersiÛn de edadFinal y ConversiÛn Alimenticia (con Valores AtÌpicos)"
+        "Dispersi√≥n de edadFinal y Conversi√≥n Alimenticia (con Valores At√≠picos)"
     )
     ax_scatter.set_xlabel("EdadFinal (meses)")
-    ax_scatter.set_ylabel("ConversiÛn Alimenticia")
+    ax_scatter.set_ylabel("Conversi√≥n Alimenticia")
     ax_scatter.legend()
 
     st.pyplot(fig_scatter)
     st.markdown(
         """
-                La edad esta lineal mente relacionada con la conversiÛn, por encima de 170 semanas
-                de edad, los lotes de cerdos degradan el factor de conversiÛn. Se evidencia tambien
+                La edad esta lineal mente relacionada con la conversi√≥n, por encima de 170 semanas
+                de edad, los lotes de cerdos degradan el factor de conversi√≥n. Se evidencia tambien
                 los valores atipicos en cerdos con edad final menor a 120 semanas los cuales para ser tan 
-                jovenes degradaron su conversiÛn seguro por algun factor externo.
+                jovenes degradaron su conversi√≥n seguro por algun factor externo.
             """
     )
 
@@ -392,7 +392,7 @@ with scatter_col1:
 
     # Identificar outliers
     outliers = np.abs(df_filtrado["z_score_mortalidad"]) > 3
-    st.subheader("DispersiÛnmortalidad y ConversiÛn Alimenticia")
+    st.subheader("Dispersi√≥nmortalidad y Conversi√≥n Alimenticia")
 
     # Crear el scatter plot
     fig_scatter, ax_scatter = plt.subplots(figsize=(10, 6))
@@ -411,23 +411,23 @@ with scatter_col1:
         df_filtrado.loc[outliers, "mortalidad"],
         df_filtrado.loc[outliers, "conversionAlimenticia"],
         color="red",
-        label="Valores atÌpicos",
+        label="Valores at√≠picos",
         alpha=0.8,
     )
 
-    # ConfiguraciÛn del gr·fico
+    # Configuraci√≥n del gr√°fico
     ax_scatter.set_title(
-        "DispersiÛn de mortalidad y ConversiÛn Alimenticia (con Valores AtÌpicos)"
+        "Dispersi√≥n de mortalidad y Conversi√≥n Alimenticia (con Valores At√≠picos)"
     )
     ax_scatter.set_xlabel("mortalidad")
-    ax_scatter.set_ylabel("ConversiÛn Alimenticia")
+    ax_scatter.set_ylabel("Conversi√≥n Alimenticia")
     ax_scatter.legend()
 
     st.pyplot(fig_scatter)
     st.markdown(
         """
             En general existe baja mortalidad, pero aquellos lotes donde la mortalidad supera un 7%, 
-            se tienen como anomalÌas.
+            se tienen como anomal√≠as.
         """
     )
 
@@ -436,7 +436,7 @@ with scatter_col2:
 
     # Identificar outliers
     outliers = np.abs(df_filtrado["z_pesoInicial"]) > 3
-    st.subheader("DispersiÛn pesoFinal y ConversiÛn Alimenticia")
+    st.subheader("Dispersi√≥n pesoFinal y Conversi√≥n Alimenticia")
 
     # Crear el scatter plot
     fig_scatter, ax_scatter = plt.subplots(figsize=(10, 6))
@@ -455,23 +455,23 @@ with scatter_col2:
         df_filtrado.loc[outliers, "pesoInicial"],
         df_filtrado.loc[outliers, "conversionAlimenticia"],
         color="red",
-        label="Valores atÌpicos",
+        label="Valores at√≠picos",
         alpha=0.8,
     )
 
-    # ConfiguraciÛn del gr·fico
+    # Configuraci√≥n del gr√°fico
     ax_scatter.set_title(
-        "DispersiÛn pesoInicial y ConversiÛn Alimenticia (con Valores AtÌpicos)"
+        "Dispersi√≥n pesoInicial y Conversi√≥n Alimenticia (con Valores At√≠picos)"
     )
     ax_scatter.set_xlabel("pesoInicial (U.A)")
-    ax_scatter.set_ylabel("ConversiÛn Alimenticia")
+    ax_scatter.set_ylabel("Conversi√≥n Alimenticia")
     ax_scatter.legend()
 
     st.pyplot(fig_scatter)
     st.markdown(
         """
-                Lotes con pesos iniciales superior a 45 U.A se consideran anomalÌas, adicional degradan
-                la conversiÛn.
+                Lotes con pesos iniciales superior a 45 U.A se consideran anomal√≠as, adicional degradan
+                la conversi√≥n.
             """
     )
 
@@ -479,23 +479,23 @@ with scatter_col2:
 st.markdown(
     """
                 **Conclusiones generales a nivel descriptivo**.
-                 - La conversiÛn alimenticia tiene un promedio de 2.24 con un rango entre 1.80 y 2.79.
+                 - La conversi√≥n alimenticia tiene un promedio de 2.24 con un rango entre 1.80 y 2.79.
                  - El peso inicial promedio es 31.28 kg, y el peso final promedio es 113.90 kg.
                  - Los lotes de cerdo deberian de iniciar con un peso entre 25 y 40 Kg, para obtener al
                    final del proceso, conversiones por debajo del valor medio de la muestra analizada.
-                 - El asesor rt_0 y rt_2 han mejorado el factor de conversiÛn con respecto a los dem·s. 
+                 - El asesor rt_0 y rt_2 han mejorado el factor de conversi√≥n con respecto a los dem√°s. 
                    Seria interezante revisar el volumne de lotes y cerdos en la cual se ha obtenido mejoras.
-                 - Mortalidad tiene un promedio de 1.88% con un m·ximo de 10%.
+                 - Mortalidad tiene un promedio de 1.88% con un m√°ximo de 10%.
 
     """
 )
 numerical_columns = df.select_dtypes(include=[np.number]).columns
 correlation_matrix = df[numerical_columns].corr()
-st.header("=  Matriz de CorrelaciÛn")
+st.header("üìä Matriz de Correlaci√≥n")
 
 st.markdown(
     """
-Esta matriz de correlaciÛn muestra la relaciÛn entre las variables numÈricas del dataset. 
+Esta matriz de correlaci√≥n muestra la relaci√≥n entre las variables num√©ricas del dataset. 
 """
 )
 
@@ -512,45 +512,45 @@ sns.heatmap(
     square=True,
     ax=ax,
 )
-ax.set_title("Matriz de CorrelaciÛn entre Variables NumÈricas", fontsize=16, pad=20)
+ax.set_title("Matriz de Correlaci√≥n entre Variables Num√©ricas", fontsize=16, pad=20)
 plt.tight_layout()
 
 st.pyplot(fig)
 
 st.markdown(
     """**Correlaciones**:
-El mapa de calor muestra correlaciones entre variables Peso inicial y peso final tienen una correlaciÛn
+El mapa de calor muestra correlaciones entre variables Peso inicial y peso final tienen una correlaci√≥n
  positiva fuerte, lo cual es esperado.
 Adicional y como es de esperar, el peso y edad inicial/final, 
-respectivamente presentan correlacciÛn positiva fuerte, es por tal motivo que en un modelo de machine learning
+respectivamente presentan correlacci√≥n positiva fuerte, es por tal motivo que en un modelo de machine learning
 no es bueno tenerlas todas, para evitar colinealidades.
-  ConversiÛn alimenticia presenta relaciones moderadas con variables como mortalidad y peso inicial.
+  Conversi√≥n alimenticia presenta relaciones moderadas con variables como mortalidad y peso inicial.
     """
 )
 
-# SecciÛn de Modelado
-st.header("=' Entrenamiento y EvaluaciÛn del Modelo")
+# Secci√≥n de Modelado
+st.header("üîß Entrenamiento y Evaluaci√≥n del Modelo")
 
 st.markdown(
     """
-**DescripciÛn del Modelo de ConversiÛn Alimenticia:**  
-En esta secciÛn, entrenamos un modelo de regresiÛn para predecir la conversiÛn 
-alimenticia basada en diversas caracterÌsticas como la f·brica de alimento, granja,
- genÈtica, peso inicial y final, asesorÌa y mortalidad. La conversiÛn alimenticia
+**Descripci√≥n del Modelo de Conversi√≥n Alimenticia:**  
+En esta secci√≥n, entrenamos un modelo de regresi√≥n para predecir la conversi√≥n 
+alimenticia basada en diversas caracter√≠sticas como la f√°brica de alimento, granja,
+ genetica, peso inicial y final, asesor√≠a y mortalidad. La conversi√≥n alimenticia
   es un indicador clave para evaluar la eficiencia alimentaria
-   de los animales en la producciÛn ganadera y el objetivo final es entender como y que valores
-   o conjuntos de valores afectan esta conversiÛn.
+   de los animales en la producci√≥n ganadera y el objetivo final es entender como y que valores
+   o conjuntos de valores afectan esta conversi√≥n.
    
    Para esta tarea primero debemos transformar la data raw, aunque ya esta limpia, 
-   debemos codificar las variables categÛricas y normalizar las variables numÈricas para obtener
+   debemos codificar las variables categ√≥ricas y normalizar las variables num√©ricas para obtener
    un mejor performance en los modelos.
 """
 )
 
-# FunciÛn para entrenar el modelo
+# Funci√≥n para entrenar el modelo
 
 
-st.header("=' Estructura del Pipeline de Preprocesamiento")
+st.header("üîß Estructura del Pipeline de Preprocesamiento")
 encoder_freq = CountFrequencyEncoder(
     encoding_method="frequency",
     variables=categorical_cols,
@@ -593,9 +593,9 @@ st.dataframe(cargar_procesados())
 
 st.markdown(
     """
-A continuaciÛn se entrena diferentes modelos de regresiÛn usando un AutoML, en este caso se uso pycaret y los
+A continuaci√≥n se entrena diferentes modelos de regresi√≥n usando un AutoML, en este caso se uso pycaret y los
 detalles se pueden observar en el notebook de trabajo, pero aca mostraremos las modelos entrenados
-y los valores de las mÈtricas obtenidas en el conjunto de test:
+y los valores de las m√©tricas obtenidas en el conjunto de test:
 """
 )
 
@@ -607,34 +607,34 @@ def cargar_datos_modelos_entrenados():
 
 
 # Mostrar tabla de datos
-st.header("ComparaciÛn de modelos entrenados")
+st.header("Comparaci√≥n de modelos entrenados")
 st.dataframe(cargar_datos_modelos_entrenados())
 
 st.markdown(
-    """ **Cu·l modelo escoger?**
+    """ **Cu√°l modelo escoger?**
 
-En base al valor de las mÈtricas y la posterior interpretaciÛn e importancia de los predictores
+En base al valor de las m√©tricas y la posterior interpretaci√≥n e importancia de los predictores
 se escoje el Random Forest ya que reduce el valor de la MAE.
  
  MAE no penaliza excesivamente los errores grandes, lo que significa 
- que refleja de manera m·s equilibrada el rendimiento del modelo
+ que refleja de manera m√°s equilibrada el rendimiento del modelo
   sin ser dominado por unos pocos outliers.
   
-Los valores SHAP proporcionan una explicaciÛn local (por instancia) y global (promedio), por lo que
- tener una mÈtrica como MAE facilita correlacionar la magnitud de 
- los errores con las contribuciones de las caracterÌsticas.
+Los valores SHAP proporcionan una explicaci√≥n local (por instancia) y global (promedio), por lo que
+ tener una m√©trica como MAE facilita correlacionar la magnitud de 
+ los errores con las contribuciones de las caracter√≠sticas.
  
 Al entender que el MAE refleja el error promedio en
  la misma escala que los datos,
- puedes relacionar m·s directamente cÛmo las 
- caracterÌsticas influyen en este error promedio.
+ puedes relacionar m√°s directamente c√≥mo las 
+ caracter√≠sticas influyen en este error promedio.
 """
 )
 
 
-st.header("InterpretraciÛn de resultados en base a los Shap values")
+st.header("Interpretraci√≥n de resultados en base a los Shap values")
 
-
+st.set_option('deprecation.showPyplotGlobalUse', False)
 @st.cache_data  # Utilizar cache_data para datos que no cambian
 def cargar_shap_values():
     return joblib.load("shap_values.joblib")
@@ -643,7 +643,7 @@ def cargar_shap_values():
 shap_values = cargar_shap_values()
 
 
-st.subheader("Gr·fico Beeswarm de SHAP")
+st.subheader("Gr√°fico Beeswarm de SHAP")
 fig7, ax7 = plt.subplots()
 shap.plots.beeswarm(shap_values, show=False)
 st.pyplot(fig7)
@@ -651,81 +651,81 @@ st.pyplot(fig7)
 st.markdown(
     """Para saber la importancia de las predicturas, usaremos los 
 diagramas de SHAP ya que permite ver las contriciones de cada feature en el modelo
-entrenado. Para este modelo la carateristica granja es la que contribuye m·s en la 
-prediciÛn del modelo, donde valores altos en este par·metro dan un valor negativo
-en el SHAP indicando una reducciÛn en la variable predictora o conversiÛn, lo que 
+entrenado. Para este modelo la carateristica granja es la que contribuye m√°s en la 
+predici√≥n del modelo, donde valores altos en este par√°metro dan un valor negativo
+en el SHAP indicando una reducci√≥n en la variable predictora o conversi√≥n, lo que 
 nos favorece para el negocio.
-En esta misma feature, la concentracciÛn de valores se tiene en un valor positivo 
-de SHAP, indicando que en general valores menores en granja aumenta la conversiÛn.
-øQue significa un valor alto o pequeÒo en la granja? Depende de la transformaciÛn 
+En esta misma feature, la concentracci√≥n de valores se tiene en un valor positivo 
+de SHAP, indicando que en general valores menores en granja aumenta la conversi√≥n.
+¬øQue significa un valor alto o peque√±o en la granja? Depende de la transformaci√≥n 
 de nuestros datos, un valor alto es que se tiene alta frecuencia, segun nuestra 
-transformaciÛn.
+transformaci√≥n.
 
-La mortalidad es otra feature facil de entender, valores pequeÒos en mortalidad 
-reducen el SHAP y por tanto la conversiÛn, como es de esperar y lo vimos en el 
-an·lisis descriptivo.
+La mortalidad es otra feature facil de entender, valores peque√±os en mortalidad 
+reducen el SHAP y por tanto la conversi√≥n, como es de esperar y lo vimos en el 
+an√°lisis descriptivo.
 
 En el caso de la genetica, vemos que valores grandes en la genetica, la categoria
-que m·s se repite tiene a tener un valor negativo en SHAP, y por tanto reducir 
-la conversiÛn. Mientras que en general, valores pequeÒos en la genetica, aumentan
-la conversiÛn.
+que m√°s se repite tiene a tener un valor negativo en SHAP, y por tanto reducir 
+la conversi√≥n. Mientras que en general, valores peque√±os en la genetica, aumentan
+la conversi√≥n.
 
-Si el peso inicial es pequeÒo, esto mejora al final la conversiÛn. Algo opuesto
+Si el peso inicial es peque√±o, esto mejora al final la conversi√≥n. Algo opuesto
 al peso final.
 
 En el caso de el semestre de salida, no hay efecto si se saca en el primer
-o segundo semestre la producciÛn. Ya que la concentraciÛn de puntos estan en 0.
+o segundo semestre la producci√≥n. Ya que la concentraci√≥n de puntos estan en 0.
 
 
-Ahora, para ver que tanto contribuye una variable predictora en la predicciÛn,
-tendremos los siguientes gr·ficos tanto a nivel global como a nivel particular.
+Ahora, para ver que tanto contribuye una variable predictora en la predicci√≥n,
+tendremos los siguientes gr√°ficos tanto a nivel global como a nivel particular.
 De destacar que los diferenciales en que contribuyen cada predictor son menores que 
 el error absoluto (MAE).
 
 """
 )
 
-st.subheader("Gr·fico de barras de SHAP")
+st.subheader("Gr√°fico de barras de SHAP")
 fig8, ax8 = plt.subplots()
 shap.plots.bar(shap_values)
 st.pyplot(fig8)
 
 
-st.subheader("Gr·fico Waterfall de la PredicciÛn Seleccionada")
+st.subheader("Gr√°fico Waterfall de la Predicci√≥n Seleccionada")
 index = st.number_input(
-    "Ingrese el n˙mero de la predicciÛn (0 a N-1):",
+    "Ingrese el n√∫mero de la predicci√≥n (0 a N-1):",
     min_value=0,
     max_value=len(shap_values) - 1,
     step=1,
     value=0,
 )
 
-# Gr·fico Waterfall basado en la entrada del usuario
+# Gr√°fico Waterfall basado en la entrada del usuario
 fig9, ax9 = plt.subplots()
 shap.plots.waterfall(shap_values[int(index)], show=False)
 st.pyplot(fig9)
 
-# Gr·fico Force basado en la entrada del usuario
-st.subheader("Gr·fico Force de la PredicciÛn Seleccionada")
+# Gr√°fico Force basado en la entrada del usuario
+st.subheader("Gr√°fico Force de la Predicci√≥n Seleccionada")
 fig10 = shap.plots.force(shap_values[int(index)], matplotlib=True)
 st.pyplot(fig10)
-# st.subheader("Gr·fico Waterfall de la Primera PredicciÛn")
+# st.subheader("Gr√°fico Waterfall de la Primera Predicci√≥n")
 # fig6, ax6 = plt.subplots()
 # shap.plots.waterfall(shap_values[int(index)], show=False)
 # st.pyplot(fig6)
 st.markdown(
-    """En las dos ˙ltimas graficas podemos ver el diferencial en contribuciÛn que
-hace que el valor medio de la prediciÛn sea diferente al valor medio de la poblaciÛn.
+    """En las dos √∫ltimas graficas podemos ver el diferencial en contribuci√≥n que
+hace que el valor medio de la predici√≥n sea diferente al valor medio de la poblaci√≥n.
 
 """
 )
 
 
-# Extraer los valores SHAP asociados a las columnas categÛricas
+# Extraer los valores SHAP asociados a las columnas categ√≥ricas
 categorical_columns = [
     col for col in cargar_procesados().columns if col in categorical_cols
 ]
-# Extraer los valores SHAP asociados a las columnas categÛricas
+# Extraer los valores SHAP asociados a las columnas categ√≥ricas
 categorical_shap_values = pd.DataFrame(
     shap_values.values[
         :, [cargar_procesados().columns.get_loc(col) for col in categorical_columns]
@@ -733,14 +733,14 @@ categorical_shap_values = pd.DataFrame(
     columns=categorical_columns,
 )
 
-# Calcular los valores mÌnimos y m·ximos por variable
+# Calcular los valores m√≠nimos y m√°ximos por variable
 categorical_min = categorical_shap_values.min(axis=0)
 categorical_max = categorical_shap_values.max(axis=0)
 
 # Crear un DataFrame resumen para mostrar los resultados
 categorical_summary = pd.DataFrame(
     {
-        "CategorÌa": categorical_min.index,
+        "Categor√≠a": categorical_min.index,
         "SHAP Min": categorical_min.values,
         "SHAP Max": categorical_max.values,
     }
@@ -760,20 +760,20 @@ categorical_summary["ahorro_consumo"] = (
 ahorro_dinero = categorical_summary["ahorro_consumo"] * costo_por_kg
 categorical_summary["ahorro_dinero"] = ahorro_dinero
 
-st.header("AplicaciÛn")
+st.header("Aplicaci√≥n")
 st.markdown(
     "5.	Suponga que el kilo de alimento cuesta $2.500 pesos."
-    " En las siguientes variables categÛricas: asesor,"
-    " fabrica Alimento, granja y genÈtica, "
-    "identifique el peor y el mejor nivel o categorÌa"
-    " seg˙n su efecto marginal sobre la conversiÛn."
-    " Estime cu·nta diferencia de alimento se "
+    " En las siguientes variables categ√≥ricas: asesor,"
+    " fabrica Alimento, granja y genetica, "
+    "identifique el peor y el mejor nivel o categor√≠a"
+    " seg√∫n su efecto marginal sobre la conversi√≥n."
+    " Estime cu√°nta diferencia de alimento se "
     "ahorra el mejor nivel respecto del peor sobre "
-    "una poblaciÛn de 200.000 cerdos  que pasa de 30"
+    "una poblaci√≥n de 200.000 cerdos  que pasa de 30"
     " a 220 kg de peso vivo y valorice dicha diferencia."
 )
 st.dataframe(categorical_summary)
 # valor_kilo_alimento
 # Footer
 st.markdown("---")
-st.markdown("**Hecho con d por [Juan David RincÛn](jdrincone@gmail.com)**")
+st.markdown("**Hecho con ‚ù§Ô∏è por [Juan David Rinc√≥n](jdrincone@gmail.com)**")
