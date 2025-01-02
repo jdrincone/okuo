@@ -21,11 +21,11 @@ st.title("Tablero de Análisis y Modelado de Datos")
 
 st.markdown(
     """
-**Prueba tecnica:**  
+**Prueba técnica:**  
 - El siguiente reporte presenta los resultados del análisis y modelamiento de datos
 asociados a la conversión alimenticia y como esta puede ser interpretada bajo un conjunto
-de predictores. Detalles de los calculos y mayor descripción de las variables se podrá encontrar
-en el notebook de exploración y modelado.
+de predictores. *Detalles de los calculos y mayor descripción de las variables se podrá encontrar
+en el notebook de exploración y modelado*.
 
 Iniciamos cargando los datos raw:
 """
@@ -143,7 +143,7 @@ with col1:
     ax1.text(
         mean_conversion + 0.1,
         ax1.get_ylim()[1] * 0.9,
-        f"Mean: {mean_conversion:.2f}",
+        f"Mean: {mean_conversion:.2f} kilos",
         color="red",
         ha="center",
         fontsize=12,
@@ -160,7 +160,7 @@ with col1:
         """
             A nivel global (sin usar los filtros globales, la conversión alimenticia muestra una
             distribucción sesgada o inclinada hacia menores valores de conversión, con un valor
-            medio en la muestra trabajada de  2.24 UA.
+            medio en la muestra trabajada de  2.24 Kilos.
             """
     )
 
@@ -176,10 +176,11 @@ with col2:
     st.dataframe(df_filtrado.describe())
     st.markdown(
         """
-            Dentro de las variables numericas podriamos inferir que la edad de los animales
+            Dentro de las variables numéricas podríamos inferir que la edad de los animales
             se mide en semanas, donde el proceso de medición inicia en promedio cuando los
             animales poseen 72 semanas  y concluye su vida en promedio a las 157 semanas. Estos
-            animales en promedio empieza con un peso de 31 U.A y concluyen con un peso promedio de 113U.A
+            animales en promedio empiezan con un peso de 31 kilos y concluyen con un peso promedio
+             de 113 kilos
             La mortalidad tiene un promedio de 1.88% con un máximo de 10%.
 
             """
@@ -278,20 +279,20 @@ st.markdown(
             - En Adición, aunque en un mejor grado, los asesores rt_0 y rt_2 presentan un performance superior
             que los demás. En el caso de las granjas, se puede evidenciar un comportamiento algo atipico en el
             grupo de granjas para la gr_18 donde su valor medio degrada la conversión. De igual forma se observan 
-            valores atipicos en la granja 48, pero estos valores mejoran el performance de conversión
+            valores atipicos en la granja 48, pero estos valores mejoran el performance de conversión.
             """
 )
 # Dispersión
 
 # Añadir Box Plots
 st.markdown(
-    "<h2 style='text-align: center; color: #0D47A1;'>Relación de disperción: variables numéricas</h2>",
+    "<h2 style='text-align: center; color: #0D47A1;'>Relación de dispersion: variables numéricas</h2>",
     unsafe_allow_html=True,
 )
 st.markdown(
-    """En los siguientes graficos cada punto representa 
+    """En los siguientes gráficos cada punto representa 
             un lote de cerdo y como la conversión alimenticia cambia en función de
-            algún predictor numérico. Los puntos en rojo, son valores atipicos y estan calculados
+            algún predictor numérico. Los puntos en rojo, son valores atípicos y están calculados
             como aquellos datos que superan más de tres desviaciones estándar de la media.
             """
 )
@@ -325,16 +326,16 @@ with scatter_col1:
     ax_scatter.set_title(
         "Dispersión de Duración de Ceba y Conversión Alimenticia (con Valores Atípicos)"
     )
-    ax_scatter.set_xlabel("Duración de Ceba (U.A)")
+    ax_scatter.set_xlabel("Duración de Ceba (kilos)")
     ax_scatter.set_ylabel("Conversión Alimenticia")
     ax_scatter.legend()
 
     st.pyplot(fig_scatter)
     st.markdown(
-        """Lotes de cerdos con menos de 50 semanas de Ceba son casos anomalos, adiciones la conversión
+        """Lotes de cerdos con menos de 50 semanas de Ceba son casos atípicos, adiciones la conversión
     es superior al valor medio de la muestra total. A nivel descriptivo se observa
-    que una conversión por debajo de la media se obtine con al menos 105 semanas de ceba, por encima de estas,
-    la conversión se degrada
+    que una conversión por debajo de la media se obtiene con al menos 105 semanas de ceba, 
+    por encima de estas, la conversión se degrada
         """
     )
 
@@ -378,9 +379,9 @@ with scatter_col2:
     st.markdown(
         """
                 La edad esta lineal mente relacionada con la conversión, por encima de 170 semanas
-                de edad, los lotes de cerdos degradan el factor de conversión. Se evidencia tambien
-                los valores atipicos en cerdos con edad final menor a 120 semanas los cuales para ser tan 
-                jovenes degradaron su conversión seguro por algun factor externo.
+                de edad, los lotes de cerdos degradan el factor de conversión. Se evidencia también
+                los valores atípicos en cerdos con edad final menor a 120 semanas los cuales para ser tan 
+                jóvenes degradaron su conversión seguro por algún factor externo.
             """
     )
 
@@ -392,7 +393,7 @@ with scatter_col1:
 
     # Identificar outliers
     outliers = np.abs(df_filtrado["z_score_mortalidad"]) > 3
-    st.subheader("Dispersiónmortalidad y Conversión Alimenticia")
+    st.subheader("Dispersión mortalidad y Conversión Alimenticia")
 
     # Crear el scatter plot
     fig_scatter, ax_scatter = plt.subplots(figsize=(10, 6))
@@ -463,14 +464,14 @@ with scatter_col2:
     ax_scatter.set_title(
         "Dispersión pesoInicial y Conversión Alimenticia (con Valores Atípicos)"
     )
-    ax_scatter.set_xlabel("pesoInicial (U.A)")
+    ax_scatter.set_xlabel("pesoInicial (kilos)")
     ax_scatter.set_ylabel("Conversión Alimenticia")
     ax_scatter.legend()
 
     st.pyplot(fig_scatter)
     st.markdown(
         """
-                Lotes con pesos iniciales superior a 45 U.A se consideran anomalías, adicional degradan
+                Lotes con pesos iniciales superior a 45 kilos se consideran anomalías, adicional degradan
                 la conversión.
             """
     )
@@ -481,10 +482,10 @@ st.markdown(
                 **Conclusiones generales a nivel descriptivo**.
                  - La conversión alimenticia tiene un promedio de 2.24 con un rango entre 1.80 y 2.79.
                  - El peso inicial promedio es 31.28 kg, y el peso final promedio es 113.90 kg.
-                 - Los lotes de cerdo deberian de iniciar con un peso entre 25 y 40 Kg, para obtener al
+                 - Los lotes de cerdo deberían de iniciar con un peso entre 25 y 40 Kg, para obtener al
                    final del proceso, conversiones por debajo del valor medio de la muestra analizada.
                  - El asesor rt_0 y rt_2 han mejorado el factor de conversión con respecto a los demás. 
-                   Seria interezante revisar el volumne de lotes y cerdos en la cual se ha obtenido mejoras.
+                   Seria interrelate revisar el volumen de lotes y cerdos en la cual se ha obtenido mejoras.
                  - Mortalidad tiene un promedio de 1.88% con un máximo de 10%.
 
     """
@@ -522,7 +523,8 @@ st.markdown(
 El mapa de calor muestra correlaciones entre variables Peso inicial y peso final tienen una correlación
  positiva fuerte, lo cual es esperado.
 Adicional y como es de esperar, el peso y edad inicial/final, 
-respectivamente presentan correlacción positiva fuerte, es por tal motivo que en un modelo de machine learning
+respectivamente presentan correlation positiva fuerte, 
+es por tal motivo que en un modelo de machine learning
 no es bueno tenerlas todas, para evitar colinealidades.
   Conversión alimenticia presenta relaciones moderadas con variables como mortalidad y peso inicial.
     """
@@ -632,7 +634,7 @@ Al entender que el MAE refleja el error promedio en
 )
 
 
-st.header("Interpretración de resultados en base a los Shap values")
+st.header("Interpretación de resultados en base a los Shap values")
 
 @st.cache_data  # Utilizar cache_data para datos que no cambian
 def cargar_shap_values():
@@ -648,16 +650,16 @@ shap.plots.beeswarm(shap_values, show=False)
 st.pyplot(fig7)
 
 st.markdown(
-    """Para saber la importancia de las predicturas, usaremos los 
+    """Para saber la importancia de las predictoras, usaremos los 
 diagramas de SHAP ya que permite ver las contriciones de cada feature en el modelo
-entrenado. Para este modelo la carateristica granja es la que contribuye más en la 
-predición del modelo, donde valores altos en este parámetro dan un valor negativo
+entrenado. Para este modelo la feature granja es la que contribuye más en la 
+predicción del modelo, donde valores altos en este parámetro dan un valor negativo
 en el SHAP indicando una reducción en la variable predictora o conversión, lo que 
 nos favorece para el negocio.
 En esta misma feature, la concentracción de valores se tiene en un valor positivo 
 de SHAP, indicando que en general valores menores en granja aumenta la conversión.
 ¿Que significa un valor alto o pequeño en la granja? Depende de la transformación 
-de nuestros datos, un valor alto es que se tiene alta frecuencia, segun nuestra 
+de nuestros datos, un valor alto es que se tiene alta frecuencia, según nuestra 
 transformación.
 
 La mortalidad es otra feature facil de entender, valores pequeños en mortalidad 
@@ -673,7 +675,7 @@ Si el peso inicial es pequeño, esto mejora al final la conversión. Algo opuest
 al peso final.
 
 En el caso de el semestre de salida, no hay efecto si se saca en el primer
-o segundo semestre la producción. Ya que la concentración de puntos estan en 0.
+o segundo semestre la producción. Ya que la concentración de puntos están en 0.
 
 
 Ahora, para ver que tanto contribuye una variable predictora en la predicción,
@@ -689,6 +691,14 @@ fig8, ax8 = plt.subplots()
 shap.plots.bar(shap_values)
 st.pyplot(fig8)
 
+st.markdown(
+    """La importancia promedio de las características en el modelo entrenado,
+     basado en los valores SHAP. 
+que la granja y el asesor son altamente importantes para el proceso de predicción, tal como vimos
+en la parte inicial con el análisis de box plot"""
+)
+
+
 
 st.subheader("Gráfico Waterfall de la Predicción Seleccionada")
 index = st.number_input(
@@ -699,10 +709,23 @@ index = st.number_input(
     value=0,
 )
 
+
+st.markdown(
+    """¿Qué contribución otorga cada predictor en el resultado final de la
+    predicción y por que esta se aleja del valor promedio de la muestra global?
+    La siguiente grafica nos permite estimar la  contribución diferencial en cada predictor, 
+    que aleja o acerca el valor predicho del valor global.
+    En interpretación con el negocio tener una conversión menor (por debajo de la media)
+    es favorable para el negocio, por tanto en el valor por defecto, el peso inicial y la
+    fabrica de alimento, an contribuido a reducir la conversión, mientras el asesor y la
+    mortalidad han ayudado a aumentarla."""
+)
 # Gráfico Waterfall basado en la entrada del usuario
 fig9, ax9 = plt.subplots()
 shap.plots.waterfall(shap_values[int(index)], show=False)
 st.pyplot(fig9)
+
+
 
 # Gráfico Force basado en la entrada del usuario
 st.subheader("Gráfico Force de la Predicción Seleccionada")
@@ -713,11 +736,12 @@ st.pyplot(fig10)
 # shap.plots.waterfall(shap_values[int(index)], show=False)
 # st.pyplot(fig6)
 st.markdown(
-    """En las dos últimas graficas podemos ver el diferencial en contribución que
-hace que el valor medio de la predición sea diferente al valor medio de la población.
-
-"""
+    """Y en este caso vemos la fuerza y el valor en la variable predictora
+    que ocasionó el cambio. Debemos de traducir los valores de la features por medio de
+    la transformación realizada. Ejemplo, el asesor=0.038 representa una frecuencia,
+    del asesor rt_2."""
 )
+
 
 
 # Extraer los valores SHAP asociados a las columnas categóricas
@@ -771,7 +795,29 @@ st.markdown(
     "una población de 200.000 cerdos  que pasa de 30"
     " a 220 kg de peso vivo y valorice dicha diferencia."
 )
+
+st.markdown(
+    "La respuesta se construirá en base a los valores SHAP, el menor  y mayor "
+    "valor SHAP en cada predictor mencionado, representa el mejor y peor valor e contribución"
+    "que cada predictor respectivamente puede otorgar a la predicción de conversión."
+    "Recordemos que una conversión menor es"
+    "mejor para el negocio, por tanto un valor SHAP menor indicaría una menor contribución"
+    "en alcanzar el valor medio de la conversión."
+    
+    "Tomando entonces:conv_max/min = conversión_mean -/+ SHAP Min/Max"
+    "y como el consumo o alimento otorgado al animal es: conv * peso ganado, "
+    "tenemos el peso por animal que se ha consumido, y por tanto el peso total "
+    "en todo el lote y su valor."
+)
 st.dataframe(categorical_summary)
+
+st.markdown(
+    "Por último, vemos que la granja es la que aporta más en el ahorro"
+    "en alimento y por tanto en dinero, es decir, eligiendo las granjas que"
+    "poseen un valor medio en conversión inferior a la media de la muestra "
+    "analizada, el modelo indica que la conversión se reducidira aumentando la"
+    "rentabilidad en ahorro de gasto alimenticio."
+)
 # valor_kilo_alimento
 # Footer
 st.markdown("---")
