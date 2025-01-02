@@ -634,7 +634,6 @@ Al entender que el MAE refleja el error promedio en
 
 st.header("Interpretración de resultados en base a los Shap values")
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
 @st.cache_data  # Utilizar cache_data para datos que no cambian
 def cargar_shap_values():
     return joblib.load("shap_values.joblib")
