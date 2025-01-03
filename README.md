@@ -16,7 +16,7 @@ luego interpretarlos y realizar predicciones ``pycaret.ipynb``
 Por último se crea un dashboard interactivo
 donde se da algunas explicación de como entender
 la conversión alimenticia en base ciertos predictores.
-
+![img.png](img.png)
 
 Tablero despledado en:
 

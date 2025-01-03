@@ -10,7 +10,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from feature_engine.encoding import CountFrequencyEncoder
-
+from PIL import Image
 st.set_page_config(
     page_title="Tablero de Análisis y Modelado de Datos",
     layout="wide",
@@ -277,9 +277,10 @@ st.markdown(
             y pp_8.  Caso opuesto se puede ver en la genetica de los animales, donde las categorías lg_6 y lg_2 
             poseen un valor medio superior al de la muestra analizada.
             - En Adición, aunque en un mejor grado, los asesores rt_0 y rt_2 presentan un performance superior
-            que los demás. En el caso de las granjas, se puede evidenciar un comportamiento algo atipico en el
-            grupo de granjas para la gr_18 donde su valor medio degrada la conversión. De igual forma se observan 
-            valores atipicos en la granja 48, pero estos valores mejoran el performance de conversión.
+            que los demás. En el caso de las granjas, se puede evidenciar un comportamiento algo atípico en el
+            grupo de granjas para la gr_18 donde su valor medio degrada la conversión. **De igual forma se observan 
+            valores atípicos en la granja 48, pero estos valores mejoran el performance de conversión y la granja 2 
+            que posee un valor medio de conversión por debajo del valor medio de la población.**
             """
 )
 # Dispersión
@@ -530,6 +531,30 @@ no es bueno tenerlas todas, para evitar colinealidades.
     """
 )
 
+# Título de la aplicación
+
+# Subir una imagen
+image_path = "img.png"  # Cambia esto por la ruta real de tu imagen
+
+image = Image.open(image_path)
+
+    # Mostrar la imagen
+st.image(image, caption="Imagen cargada desde la carpeta", use_container_width=True)
+
+st.markdown(
+    """Un resumen descriptivo de la conversión alimenticia se puede dar con la anterior 
+    grafica, la cual fue obtenidad en el `reporte_sweetviz.html` en ``exporation.ipynb``:
+    
+    - Tenemos nuestra variable de interés que es la conversión con un valor medio de 2.23, es decir,
+      por cada 2.23 kg que come el cerdo, este incrementa en 1 su peso.
+    - La Razón de Correlación mide la fuerza de asociación entre una variable 
+      categórica y una variable continua, nos muestra que la granja y la empresa y el asesor,
+      fabrica de alimento están altamente asociadas, mientras que el semestre de salida practicamente
+      no tiene efecto en el comportamiento de la conversión. Esto se recalcará más adelante en la sección
+      de modelado.
+    """
+)
+
 # Sección de Modelado
 st.header("🔧 Entrenamiento y Evaluación del Modelo")
 
@@ -538,14 +563,16 @@ st.markdown(
 **Descripción del Modelo de Conversión Alimenticia:**  
 En esta sección, entrenamos un modelo de regresión para predecir la conversión 
 alimenticia basada en diversas características como la fábrica de alimento, granja,
- genetica, peso inicial y final, asesoría y mortalidad. La conversión alimenticia
-  es un indicador clave para evaluar la eficiencia alimentaria
-   de los animales en la producción ganadera y el objetivo final es entender como y que valores
-   o conjuntos de valores afectan esta conversión.
-   
-   Para esta tarea primero debemos transformar la data raw, aunque ya esta limpia, 
-   debemos codificar las variables categóricas y normalizar las variables numéricas para obtener
-   un mejor performance en los modelos.
+genética, peso inicial y final, asesoría y mortalidad ¿Por qué? No es solo por que nos lo indica la prueba,
+es por que la razón de asociación y factor de correlación nos lo indica.
+ 
+La conversión alimenticia es un indicador clave para evaluar la eficiencia alimentaria 
+de los animales en la producción ganadera y el objetivo final es entender como y que valores
+o conjuntos de valores afectan esta conversión.
+
+Para esta tarea primero debemos transformar la data raw, aunque ya esta limpia, 
+debemos codificar las variables categóricas y normalizar las variables numéricas para obtener
+un mejor performance en los modelos.
 """
 )
 
@@ -632,7 +659,8 @@ Al entender que el MAE refleja el error promedio en
  características influyen en este error promedio.
 """
 )
-
+st.markdown("Detalles del paso a paso, revisión de residual y error, se pueden encontrar"
+            "en `pycaret.ipynb`")
 
 st.header("Interpretación de resultados en base a los Shap values")
 
@@ -651,25 +679,30 @@ st.pyplot(fig7)
 
 st.markdown(
     """Para saber la importancia de las predictoras, usaremos los 
-diagramas de SHAP ya que permite ver las contriciones de cada feature en el modelo
+diagramas de SHAP ya que permite ver los aportes de cada feature en el modelo
 entrenado. Para este modelo la feature granja es la que contribuye más en la 
 predicción del modelo, donde valores altos en este parámetro dan un valor negativo
 en el SHAP indicando una reducción en la variable predictora o conversión, lo que 
 nos favorece para el negocio.
-En esta misma feature, la concentracción de valores se tiene en un valor positivo 
+En esta misma feature, la concentración de valores se tiene en un valor positivo 
 de SHAP, indicando que en general valores menores en granja aumenta la conversión.
 ¿Que significa un valor alto o pequeño en la granja? Depende de la transformación 
 de nuestros datos, un valor alto es que se tiene alta frecuencia, según nuestra 
-transformación.
+transformación, por tanto la granja más frecuente fue gr_48 y la gr_2, categorías 
+que en el box plot centramos su atención.
 
-La mortalidad es otra feature facil de entender, valores pequeños en mortalidad 
+La mortalidad es otra feature fácil de entender, valores pequeños en mortalidad 
 reducen el SHAP y por tanto la conversión, como es de esperar y lo vimos en el 
-análisis descriptivo.
+análisis descriptivo. Existe un valor alto en mortalidad que incrementa la conversión,
+estos son los punto extremos que encontramos en el análisis descriptivo.
 
-En el caso de la genetica, vemos que valores grandes en la genetica, la categoria
-que más se repite tiene a tener un valor negativo en SHAP, y por tanto reducir 
-la conversión. Mientras que en general, valores pequeños en la genetica, aumentan
+Para los asesores, vemos una densidad de puntos de alto valor en la zona positiva
+del SHAP, esto indica que los asesores con mayor frecuencia están levemente incrementando
 la conversión.
+En el caso de la genética, vemos que valores grandes en la genética, la categoría
+que más se repite tiene a tener un valor negativo en SHAP, y por tanto reducir 
+la conversión. Mientras que en general, valores pequeños en la genética, aumentan
+la conversión, afortunadamente mayoritariamente se tiene solo una genética.
 
 Si el peso inicial es pequeño, esto mejora al final la conversión. Algo opuesto
 al peso final.
@@ -695,14 +728,14 @@ st.markdown(
     """La importancia promedio de las características en el modelo entrenado,
      basado en los valores SHAP. 
 que la granja y el asesor son altamente importantes para el proceso de predicción, tal como vimos
-en la parte inicial con el análisis de box plot"""
+en la parte inicial con el análisis de box  y con el radio de correlación."""
 )
 
 
 
 st.subheader("Gráfico Waterfall de la Predicción Seleccionada")
 index = st.number_input(
-    "Ingrese el número de la predicción (0 a N-1):",
+    "Ingrese el número de la predicción (0 a 2524):",
     min_value=0,
     max_value=len(shap_values) - 1,
     step=1,
@@ -717,7 +750,7 @@ st.markdown(
     que aleja o acerca el valor predicho del valor global.
     En interpretación con el negocio tener una conversión menor (por debajo de la media)
     es favorable para el negocio, por tanto en el valor por defecto, el peso inicial y la
-    fabrica de alimento, an contribuido a reducir la conversión, mientras el asesor y la
+    fabrica de alimento, han contribuido a reducir la conversión, mientras el asesor y la
     mortalidad han ayudado a aumentarla."""
 )
 # Gráfico Waterfall basado en la entrada del usuario
@@ -802,8 +835,10 @@ st.markdown(
     "que cada predictor respectivamente puede otorgar a la predicción de conversión."
     "Recordemos que una conversión menor es"
     "mejor para el negocio, por tanto un valor SHAP menor indicaría una menor contribución"
-    "en alcanzar el valor medio de la conversión."
+    "en alcanzar el valor medio de la conversión.")
+
     
+st.markdown(
     "Tomando entonces:conv_max/min = conversión_mean -/+ SHAP Min/Max"
     "y como el consumo o alimento otorgado al animal es: conv * peso ganado, "
     "tenemos el peso por animal que se ha consumido, y por tanto el peso total "
@@ -815,9 +850,24 @@ st.markdown(
     "Por último, vemos que la granja es la que aporta más en el ahorro"
     "en alimento y por tanto en dinero, es decir, eligiendo las granjas que"
     "poseen un valor medio en conversión inferior a la media de la muestra "
-    "analizada, el modelo indica que la conversión se reducidira aumentando la"
+    "analizada, el modelo indica que la conversión disminuye aumentando la"
     "rentabilidad en ahorro de gasto alimenticio."
 )
+
+st.header("¿Qué más se podria intentar responder o modelar con los datos?")
+st.markdown(
+    """Algunas ideas serian:
+    
+    - ¿Existen diferencias significativas en la conversión alimenticia entre
+       lotes según categorías como fábrica de alimento, genética, o granja?
+    
+    - ¿Qué combinación de las variables categóricas lleva a la conversión alimenticia más baja?
+    
+    - ¿Es posible identificar prácticas en granjas o líneas genéticas que reduzcan 
+       la mortalidad y, por ende, mejoren la conversión alimenticia?
+    - ¿Hay un peso final óptimo que minimice la conversión alimenticia 
+       antes de que se estabilice o comience a aumentar?""")
+
 # valor_kilo_alimento
 # Footer
 st.markdown("---")
