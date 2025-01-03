@@ -735,12 +735,12 @@ el error absoluto (MAE).
 )
 
 
-st.subheader("Mapa de calor de SHAP")
+"""st.subheader("Mapa de calor de SHAP")
 fig7, ax7 = plt.subplots()
 shap.plots.heatmap(shap_values)
 #shap.plots.beeswarm(shap_values, show=False)
 st.pyplot(fig7)
-
+"""
 
 
 st.subheader("Gráfico Waterfall de la Predicción Seleccionada")
