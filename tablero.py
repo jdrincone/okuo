@@ -672,9 +672,24 @@ def cargar_shap_values():
 shap_values = cargar_shap_values()
 
 
+
+
+st.subheader("Gráfico mean SHAP ")
+fig8, ax8 = plt.subplots()
+shap.plots.bar(shap_values)
+st.pyplot(fig8)
+
+st.markdown(
+    """Para cada característica en el modelo entrenado, se otorga el 
+    valor de SHAP medio absoluto. La granja y el asesor son altamente
+     importantes para el proceso de predicción, tal como vimos
+    en la parte inicial con el análisis de box  y con el radio de correlación."""
+)
+
 st.subheader("Gráfico Beeswarm de SHAP")
 fig7, ax7 = plt.subplots()
-shap.plots.beeswarm(shap_values, show=False)
+shap.plots.violin(shap_values, plot_type="layered_violin")
+#shap.plots.beeswarm(shap_values, show=False)
 st.pyplot(fig7)
 
 st.markdown(
@@ -719,17 +734,12 @@ el error absoluto (MAE).
 """
 )
 
-st.subheader("Gráfico de barras de SHAP")
-fig8, ax8 = plt.subplots()
-shap.plots.bar(shap_values)
-st.pyplot(fig8)
 
-st.markdown(
-    """La importancia promedio de las características en el modelo entrenado,
-     basado en los valores SHAP. 
-que la granja y el asesor son altamente importantes para el proceso de predicción, tal como vimos
-en la parte inicial con el análisis de box  y con el radio de correlación."""
-)
+st.subheader("Mapa de calor de SHAP")
+fig7, ax7 = plt.subplots()
+shap.plots.heatmap(shap_values)
+#shap.plots.beeswarm(shap_values, show=False)
+st.pyplot(fig7)
 
 
 
